@@ -1,25 +1,37 @@
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    int damage = 30;
-    void OnCollisionEnter(Collision collision)
+    public float speed = 20f;
+
+    private void Update()
     {
-        
-        if (collision.gameObject.tag == "Player")
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+        if (transform.position.z > 80f)
         {
-            Debug.Log("맞았다");
-            Player player = collision.gameObject.GetComponent<Player>();
-            if(player != null)
-            {                            
-                if (!player.Damage(damage))
-                {
-                    Debug.Log("당신은 죽었습니다");
-                    Destroy(collision.gameObject);
-                }
-            }
-
-
+            BulletPool.Instance.ReturnBullet(gameObject);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            GameManager.Instance.AddScore(10);
+            Destroy(other.gameObject);
+            BulletPool.Instance.ReturnBullet(gameObject);
+        }
+
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.LoseLife();
+            if(GameManager.Instance.life <=0)
+            {
+                Destroy(other.gameObject);
+            }          
+            BulletPool.Instance.ReturnBullet(gameObject);
+        }
+    }
+   
+   
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5636841383866003594}
   m_Layer: 0
   m_Name: CannonBall
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,3 +153,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b72f18faa4bfaa45a84a948364cdce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckCollision
+  damage: 30
