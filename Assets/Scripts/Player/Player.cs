@@ -3,21 +3,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Transform cannonPoint;
-    public GameObject projectile;
     public Transform spawnPoint;
-
-    [SerializeField]
-    int health = 100;
-    void Start()
-    {
-       
-    }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0) == true)
-        {
-            BulletPool.Instance.GetBullet(spawnPoint.position, BulletPool.Instance.bulletPrefab.transform.rotation);
+        {           
+            BulletPool.Instance.GetBullet(spawnPoint.position, BulletPool.Instance.bulletPrefab.gameObject.transform.rotation);
         }
 
         if (Input.GetKey(KeyCode.A) == true)
@@ -36,17 +28,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(limitX, transform.position.y, transform.position.z);
     }
 
-    public bool Damage(int dmg)
-    {
-        health -= dmg;
-        if (health <= 0)
-        {
-            Destroy(this);
-            return false;
-        }
-        return true;
-
-    }
+   
 
 
 }

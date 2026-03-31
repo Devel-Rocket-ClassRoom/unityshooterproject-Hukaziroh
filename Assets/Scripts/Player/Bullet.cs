@@ -15,20 +15,10 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             GameManager.Instance.AddScore(10);
             Destroy(other.gameObject);
-            BulletPool.Instance.ReturnBullet(gameObject);
-        }
-
-        if (other.CompareTag("Player"))
-        {
-            GameManager.Instance.LoseLife();
-            if(GameManager.Instance.life <=0)
-            {
-                Destroy(other.gameObject);
-            }          
             BulletPool.Instance.ReturnBullet(gameObject);
         }
     }

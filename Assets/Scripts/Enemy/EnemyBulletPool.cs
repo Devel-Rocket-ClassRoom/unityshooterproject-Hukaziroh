@@ -1,0 +1,51 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyBulletPool : MonoBehaviour
+{
+    public static EnemyBulletPool Instance;
+
+    public GameObject enemybulletPrefab;
+    public int poolSize = 20;
+
+    private Queue<GameObject> bulletQueue = new Queue<GameObject>();
+
+    private void Awake()
+    {
+        Instance = this;
+        InitializePool();
+    }
+
+    private void InitializePool()
+    {
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject bullet = Instantiate(enemybulletPrefab, transform);
+            bullet.SetActive(false);
+            bulletQueue.Enqueue(bullet);
+        }
+    }
+
+    public GameObject GetBullet(Vector3 position, Quaternion rotation)
+    {
+        if (bulletQueue.Count > 0)
+        {
+            GameObject bullet = bulletQueue.Dequeue();
+            bullet.transform.position = position;
+            bullet.transform.rotation = rotation;
+            bullet.SetActive(true);
+            return bullet;
+        }
+        else
+        {
+            GameObject newBullet = Instantiate(enemybulletPrefab, position, rotation);
+            return newBullet;
+        }
+    }
+
+    public void ReturnBullet(GameObject bullet)
+    {
+        bullet.SetActive(false);
+        bulletQueue.Enqueue(bullet);
+    }
+}
